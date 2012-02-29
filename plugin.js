@@ -1,15 +1,44 @@
-(function( $ ){
+if ( typeof Object.create !== 'function' ) {
+    Object.create = function( obj ) {
+        function F() {};
+        F.prototype = obj;
+        return new F();
+    };
+}
 
-    $.fn.myPlugin = function( options ) {  
+(function ($, window, document, undefined) {
 
-    var settings = $.extend( {
-        'option1' : 1,
-        'option2' : 'string'
-    }, options);
+    var Plugin = {
+        init: function ( options, elem ) {
+            var self = this;
+            self.elem = elem;
+            self.$elem = $( elem );
 
-    return this.each(function() {        
-        // code here!
-    });
+            if ( typeof options === 'string' ) {
+                self.options.option1 = options;
+            } else {
+                self.options = $.extend( {}, $.fn.MyPlugin.options, options );
+            }
 
-  };
-})( jQuery );
+            self.controller();
+        },
+
+        controller: function() {
+            // Go on!
+        }
+    }
+
+    $.fn.MyPlugin = function ( options ) {
+        return this.each(function () {
+
+            var plugin = Object.create( Plugin );
+            plugin.init( options, this );
+        });
+    };
+
+    $.fn.MyPlugin.options = {
+        option1: 'option',
+        option2: 3.14
+    };
+
+})(jQuery, window, document);
