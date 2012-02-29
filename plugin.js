@@ -14,11 +14,12 @@ if ( typeof Object.create !== 'function' ) {
             self.elem = elem;
             self.$elem = $( elem );
 
-            if ( typeof options === 'string' ) {
-                self.options.option1 = options;
-            } else {
-                self.options = $.extend( {}, $.fn.MyPlugin.options, options );
-            }
+            // If option can be only a string:
+            self.options.option1 = ( typeof options === 'string' )
+                ? options
+                : options.option1;
+
+            self.options = $.extend( {}, $.fn.MyPlugin.options, options );
 
             self.controller();
         },
