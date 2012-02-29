@@ -14,7 +14,7 @@ if ( typeof Object.create !== 'function' ) {
             self.elem = elem;
             self.$elem = $( elem );
 
-            // If option can be only a string:
+            // Maybe the option can be only a string:
             self.options.option1 = ( typeof options === 'string' )
                 ? options
                 : options.option1;
@@ -34,6 +34,10 @@ if ( typeof Object.create !== 'function' ) {
 
             var plugin = Object.create( Plugin );
             plugin.init( options, this );
+
+            // Make the instance available
+            $.data( this, 'MyPlugin', plugin );
+
         });
     };
 
